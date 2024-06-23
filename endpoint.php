@@ -80,7 +80,7 @@
 
 
 
-        if ( $number < 2 ) $number = 2;
+        if ( $number < 2 ) $number = 1;
 
 
 
@@ -169,7 +169,7 @@
             // (Setting the value)
             $tests = [];
 
-            for ($i = $min; $i < $max; $i++)
+            for ( $i = $min; $i < $max; $i++ )
             {// Iterating each entry
                 // (Calculating the next prime)
                 $target = calc_next_prime( $i, $primes );
@@ -251,7 +251,7 @@
 
         case '/nextPrime':
             // (Getting the value)
-            $target = calc_prev_prime( $_GET['x'] );
+            $target = calc_next_prime( $_GET['x'] );
 
             // Printing the value
             echo json_encode( $target );
