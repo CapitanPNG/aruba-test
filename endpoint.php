@@ -4,22 +4,22 @@
     function is_prime (int $number)
     {
         // (Setting the value)
-        $divisors = [];
+        $dividers = [];
 
         for ( $i = 1; $i <= $number; $i++ )
         {// Iterating each index
             if ( $number % $i === 0 )
-            {// (Number is divisable)
+            {// (Number is divisible)
                 // (Appending the value)
-                $divisors[] = $i;
+                $dividers[] = $i;
             }
         }
 
 
 
-        if ( count($divisors) === 2 )
-        {// (There are only two divisors)
-            if ( $divisors[0] === 1 && $divisors[1] === $number )
+        if ( count($dividers) === 2 )
+        {// (There are only two dividers)
+            if ( $dividers[0] === 1 && $dividers[1] === $number )
             {// (Number is a Prime)
                 // Returning the value
                 return true;
@@ -33,50 +33,6 @@
     }
 
 
-
-    # Returns [int|false]
-    function calc_prev_prime_OLD (int $number, ?array &$primes = null)
-    {
-        // (Setting the value)
-        $target = false;
-
-
-
-        // (Setting the value)
-        $diff = 1;
-
-
-
-        // (Setting the value)
-        $primes = [];
-
-        for ( $i = 1; $i <= $number; $i++ )
-        {// Iterating each index
-            if ( is_prime( $i ) )
-            {// (Number is a Prime)
-                // (Appending the value)
-                $primes[] = $i;
-
-
-
-                if ( $number !== $i && $number - $i <= $diff )
-                {// Match OK
-                    // (Getting the value)
-                    $target = $i;
-                }
-
-
-
-                // (Getting the value)
-                $diff = $number - $i;
-            }
-        }
-
-
-
-        // Returning the value
-        return $target;
-    }
 
     # Returns [int|false]
     function calc_prev_prime (int $number, ?array &$primes = null)
@@ -101,7 +57,7 @@
 
 
 
-        for ( $i = 0; $i < $number; $i++ )
+        for ( $i = 1; $i <= $number; $i++ )
         {// Iterating each entry
             if ( is_prime($i) )
             {// (Number is a Prime)
@@ -116,11 +72,15 @@
         return $target;
     }
 
-    # Returns [int|false]
+    # Returns [int]
     function calc_next_prime (int $number, ?array &$primes = null)
     {
         // (Setting the value)
         $primes = [];
+
+
+
+        if ( $number < 2 ) $number = 2;
 
 
 
@@ -129,7 +89,7 @@
 
         while ( !is_prime($target) )
         {// Processing each entry
-            // (Decrementing the value)
+            // (Incrementing the value)
             $target += 1;
         }
 
@@ -181,7 +141,7 @@
             // (Setting the value)
             $tests = [];
 
-            for ($i = $min; $i < $max; $i++)
+            for ( $i = $min; $i < $max; $i++ )
             {// Iterating each entry
                 // (Calculating the previous prime)
                 $target = calc_prev_prime( $i, $primes );
@@ -211,7 +171,7 @@
 
             for ($i = $min; $i < $max; $i++)
             {// Iterating each entry
-                // (Calculating the previous prime)
+                // (Calculating the next prime)
                 $target = calc_next_prime( $i, $primes );
 
                 // (Appending the value)
@@ -238,6 +198,11 @@
             $tests =
             [
                 [
+                    'min' => -50,
+                    'max' => 7
+                ],
+
+                [
                     'min' => 2,
                     'max' => 10
                 ],
@@ -248,13 +213,13 @@
                 ],
 
                 [
-                    'min' => 50,
+                    'min' => 40,
                     'max' => 300
                 ]
             ]
             ;
 
-            foreach ($tests as &$test)
+            foreach ( $tests as &$test )
             {// Processing each entry
                 // (Getting the value)
                 $test['primes'] = calc_primes_between( $test['min'], $test['max'] );
@@ -278,7 +243,7 @@
     {
         case '/prevPrime':
             // (Getting the value)
-            $target = calc_prev_prime( $_GET['x'], $primes );
+            $target = calc_prev_prime( $_GET['x'] );
 
             // Printing the value
             echo json_encode( $target );
@@ -286,7 +251,7 @@
 
         case '/nextPrime':
             // (Getting the value)
-            $target = calc_prev_prime( $_GET['x'], $primes );
+            $target = calc_prev_prime( $_GET['x'] );
 
             // Printing the value
             echo json_encode( $target );
